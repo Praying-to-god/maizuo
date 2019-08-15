@@ -1,24 +1,58 @@
-import Vue from "vue";
-import Router from "vue-router";
-import Home from "./views/Home.vue";
+// 引入vue
+import Vue from 'vue'
 
-Vue.use(Router);
+// 引入VueRouter
+import VueRouter from 'vue-router'
 
-export default new Router({
-  routes: [
+// 调用VueRouter
+Vue.use(VueRouter)
+
+// 定义路由规则
+const routes = [
     {
-      path: "/",
-      name: "home",
-      component: Home
+        path: '/',
+        component: () => import('./views/Home/index.vue'),
+        children: [
+            {
+                path: 'films',
+                component: () => import('./views/Home/films.vue')
+            },
+            {
+                path: 'center',
+                component: () => import('./views/Home/center.vue')
+            },
+            {
+                path: 'cinemas',
+                component: () => import('./views/Home/cinemas.vue')
+            },
+            {
+                path: 'brand',
+                component: () => import('./views/Home/brand.vue')
+            }
+        ]
     },
     {
-      path: "/about",
-      name: "about",
-      // route level code-splitting
-      // this generates a separate chunk (about.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () =>
-        import(/* webpackChunkName: "about" */ "./views/About.vue")
+        path: '/city',
+        component: () => import('./views/City/index.vue')
+    },
+    {
+        path: '/film/:filmId',
+        component: () => import('./views/Film/index.vue')
+    },
+    {
+        path: '/login',
+        component: () => import('./views/Login/index.vue')
+    },
+    {
+        path: '/money',
+        component: () => import('./views/Money/index.vue')
     }
-  ]
-});
+]
+
+// 创建路由实例对象
+const router = new VueRouter({
+    routes
+})
+
+// 暴露
+export default router
